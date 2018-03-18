@@ -12,6 +12,6 @@ public class UserService {
     private UserRepository repository;
 
     public String getName(Long id){
-        return repository.getUser(id).getName();
+        return repository.getOne(id).getName();
     }
 }

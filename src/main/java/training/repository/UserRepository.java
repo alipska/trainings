@@ -1,14 +1,11 @@
 package training.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import training.domain.User;
 
 import java.util.List;
 
-public interface UserRepository {
-    List<User> getUsers();
-    User getUser(Long id);
-    int getNumberOfUsers();
-    Long createUser(String firstName,String name);
-    int deleteUser(Long id);
-    void updateUser(User user);
+public interface UserRepository extends JpaRepository<User,Long>{
+
+    List<User> findUsersByFirsName(String firstName);
 }

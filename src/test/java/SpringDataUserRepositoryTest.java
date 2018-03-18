@@ -17,20 +17,20 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
 @Transactional
-public class JdbcUserRepositoryTest {
+public class SpringDataUserRepositoryTest {
 
     @Autowired
     private UserRepository repository;
 
     @Test
     public void testGetUsers() throws Exception {
-        List<User> users = repository.getUsers();
+        List<User> users = repository.findAll();
         assertThat(users.size(),is(3));
     }
 
     @Test
     public void testGetUser() throws Exception {
-        User user = repository.getUser(1L);
+        User user = repository.getOne(1L);
         assertThat(user.getId(),is(1L));
         assertThat(user.getFirsName(),is("Jan"));
         assertThat(user.getName(),is("Nowak"));
@@ -38,36 +38,43 @@ public class JdbcUserRepositoryTest {
 
     @Test
     public void testGetNumberOfUsers() throws Exception {
-        assertThat(repository.getNumberOfUsers(),is(3));
+        assertThat(repository.count(),is(3L));
     }
 
     @Test
     public void testCreateUser() throws Exception {
-        Long id = repository.createUser("Aga","Jakas");
+        User user = new User(99L,"Aga","Jakas");
+        repository.save(user);
+        Long id = user.getId();
         assertThat(id,is(notNullValue()));
 
-        User user = repository.getUser(id);
-        assertThat(user.getId(),is(id));
-        assertThat(user.getFirsName(),is("Aga"));
-        assertThat(user.getName(),is("Jakas"));
+        User user1 = repository.getOne(id);
+        assertThat(user1.getId(),is(id));
+        assertThat(user1.getFirsName(),is("Aga"));
+        assertThat(user1.getName(),is("Jakas"));
 
     }
 
     @Test
     public void testUpdateUser() throws  Exception {
-        User user = repository.getUser(1L);
+        User user = repository.getOne(1L);
         user.setName("Inna");
-        repository.updateUser(user);
+        repository.save(user);
 
-        User updatedUser = repository.getUser(1L);
+        User updatedUser = repository.getOne(1L);
         assertThat(updatedUser.getName(),is("Inna"));
     }
 
     @Test
     public void testDeleteUser() {
-        for(User user:repository.getUsers()){
-            repository.deleteUser(user.getId());
-        }
-        assertThat(repository.getNumberOfUsers(),is(0));
+        repository.deleteAll();
+        assertThat(repository.count(),is(0L));
+    }
+
+    @Test
+    public void testFindUserByFirstName() {
+        List<User> users = repository.findUsersByFirsName("Aleksandra");
+        assertThat(users.size(),is(1));
+        assertThat(users.get(0).name,is("Kowalska"));
     }
 }
