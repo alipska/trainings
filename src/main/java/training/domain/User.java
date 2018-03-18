@@ -1,10 +1,19 @@
 package training.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class User {
+    @Id
     public Long id;
+    @Column(name="first_name")
     public String firsName;
     public String name;
+
+    public User(){
+    }
 
     public User(long id, String first_name, String name) {
         this.id = id;

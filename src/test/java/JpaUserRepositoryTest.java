@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import training.domain.User;
 import training.repository.UserRepository;
 
-
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
 @Transactional
-public class JdbcUserRepositoryTest {
+public class JpaUserRepositoryTest {
 
     @Autowired
     private UserRepository repository;

@@ -1,6 +1,6 @@
 package training.repository;
 
-import training.User;
+import training.domain.User;
 
 import java.util.List;
 
