@@ -1,0 +1,1 @@
+CREATE TABLE user(id INT PRIMARY KEY , first_name CHAR(20), name CHAR(20))
